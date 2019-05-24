@@ -22,8 +22,8 @@ import (
 	"testing"
 
 	"github.com/cloudfoundry/libcfbuildpack/test"
+	"github.com/heroku/libfnbuildpack/function"
 	. "github.com/onsi/gomega"
-	"github.com/projectriff/libfnbuildpack/function"
 	"github.com/sclevine/spec"
 	"github.com/sclevine/spec/report"
 )
