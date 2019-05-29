@@ -46,12 +46,6 @@ func TestMetadata(t *testing.T) {
 			os.Unsetenv(function.OverrideEnv)
 		})
 
-		it("returns false if riff.toml does not exist and RIFF env not set", func() {
-			_, ok, err := function.NewMetadata(f.Build.Application, f.Build.Logger)
-			g.Expect(ok).To(BeFalse())
-			g.Expect(err).NotTo(HaveOccurred())
-		})
-
 		it("returns metadata if riff.toml exists", func() {
 			test.WriteFile(t, filepath.Join(f.Build.Application.Root, "riff.toml"), `
 artifact = "toml-artifact"
