@@ -1,5 +1,7 @@
 # `libfnbuildpack`
 
+[![CircleCI](https://circleci.com/gh/heroku/libfnbuildpack/tree/master.svg?style=svg)](https://circleci.com/gh/heroku/libfnbuildpack/tree/master)
+
 libfnbuildpack provides support to riff Invoker Buildpacks.
 
 ## License
