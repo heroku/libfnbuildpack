@@ -19,12 +19,9 @@ package function
 import (
 	"fmt"
 	"os"
-	"path/filepath"
 
-	"github.com/BurntSushi/toml"
 	"github.com/buildpack/libbuildpack/application"
-	"github.com/heroku/libhkbuildpack/helper"
-	"github.com/heroku/libhkbuildpack/logger"
+	"github.com/buildpack/libbuildpack/logger"
 )
 
 const (
@@ -58,21 +55,8 @@ func (m Metadata) String() string {
 // NewMetadata creates a new Metadata from the contents of $APPLICATION_ROOT/riff.toml. If that file does not exist,
 // the second return value is false.
 func NewMetadata(application application.Application, logger logger.Logger) (Metadata, bool, error) {
-	f := filepath.Join(application.Root, "riff.toml")
-
-	exists, err := helper.FileExists(f)
-	if err != nil {
-		return Metadata{}, false, err
-	}
-
 	var metadata Metadata
 
-	if exists {
-		_, err = toml.DecodeFile(f, &metadata)
-		if err != nil {
-			return Metadata{}, false, err
-		}
-	}
 	// environment overrides riff.toml values
 	if artifact := os.Getenv(ArtifactEnv); artifact != "" {
 		metadata.Artifact = artifact
