@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/heroku/libhkbuildpack/test"
+	"github.com/cloudfoundry/libcfbuildpack/test"
 	"github.com/heroku/libfnbuildpack/function"
 	. "github.com/onsi/gomega"
 	"github.com/sclevine/spec"
