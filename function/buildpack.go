@@ -105,7 +105,7 @@ func Build(bp Buildpack) {
 }
 
 func doBuild(bp Buildpack, b build.Build) (int, error) {
-	b.Logger.FirstLine(b.Logger.PrettyIdentity(b.Buildpack))
+	b.Logger.Title(b.Buildpack)
 
 	if err := bp.Build(b); err != nil {
 		return b.Failure(Error_BuildInternalError), fmt.Errorf("unable to build invoker %q: %s", bp.Id(), err)
