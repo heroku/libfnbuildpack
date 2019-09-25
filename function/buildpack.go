@@ -47,11 +47,6 @@ func Detect(bp Buildpack) {
 		os.Exit(Error_Initialize)
 	}
 
-	//if err := d.BuildPlan.Init(); err != nil {
-	//	_, _ = fmt.Fprintf(os.Stderr, "Failed to initialize Build Plan: %s\n", err)
-	//	os.Exit(Error_Initialize)
-	//}
-
 	if code, err := doDetect(bp, d); err != nil {
 		d.Logger.Info(err.Error())
 		os.Exit(code)
