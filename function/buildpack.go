@@ -22,9 +22,9 @@ import (
 	"github.com/buildpack/libbuildpack/buildplan"
 	"os"
 
-	"github.com/cloudfoundry/libcfbuildpack/build"
+	"github.com/buildpack/libbuildpack/build"
+	"github.com/buildpack/libbuildpack/detect"
 	"github.com/cloudfoundry/libcfbuildpack/buildpackplan"
-	"github.com/cloudfoundry/libcfbuildpack/detect"
 )
 
 const (
@@ -56,9 +56,11 @@ func Detect(bp Buildpack) {
 }
 
 func doDetect(bp Buildpack, d detect.Detect) (int, error) {
+	// Look for metadata toml file that includes artifact, handler, and override fields that the
+	// user can overwrite.  We should considering using this for Heroku or just removing it.
 	m, ok, err := NewMetadata(d.Application, d.Logger)
 	if err != nil {
-		return d.Error(ErrorDetectReadMetadata), fmt.Errorf("unable to read riff metadata: %s", err.Error())
+		return d.Error(ErrorDetectReadMetadata), fmt.Errorf("unable to read metadata: %s", err.Error())
 	}
 
 	if !ok {
@@ -105,7 +107,7 @@ func Build(bp Buildpack) {
 }
 
 func doBuild(bp Buildpack, b build.Build) (int, error) {
-	b.Logger.Title(b.Buildpack)
+	b.Logger.Info(b.Buildpack.Info.Name)
 
 	if err := bp.Build(b); err != nil {
 		return b.Failure(ErrorBuildInternalError), fmt.Errorf("unable to build invoker %q: %s", bp.Id(), err)
