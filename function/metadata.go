@@ -27,9 +27,9 @@ import (
 )
 
 const (
-	ArtifactEnv = "RIFF_ARTIFACT"
-	HandlerEnv  = "RIFF_HANDLER"
-	OverrideEnv = "RIFF_OVERRIDE"
+	ArtifactEnv = "ARTIFACT"
+	HandlerEnv  = "HANDLER"
+	OverrideEnv = "OVERRIDE"
 )
 
 // Metadata represents the contents of the riff.toml file in an application root

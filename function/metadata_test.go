@@ -79,8 +79,8 @@ artifact = "toml-artifact"
 handler = "toml-handler"
 override = "toml-override"
 `
-			_ = os.Setenv("RIFF_ARTIFACT", "env-artifact")
-			_ = os.Setenv("RIFF_OVERRIDE", "env-override")
+			_ = os.Setenv("ARTIFACT", "env-artifact")
+			_ = os.Setenv("OVERRIDE", "env-override")
 
 			filename := filepath.Join(testBuild.Application.Root, "metadata.toml")
 			writeMetadataTestFile(t, filename, mdContent)
