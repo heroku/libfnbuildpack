@@ -45,9 +45,9 @@ func TestMetadata(t *testing.T) {
 		})
 
 		it.After(func() {
-			_ = os.Unsetenv(function.ArtifactEnv)
-			_ = os.Unsetenv(function.HandlerEnv)
-			_ = os.Unsetenv(function.OverrideEnv)
+			_ = os.Unsetenv("ARTIFACT")
+			_ = os.Unsetenv("HANDLER")
+			_ = os.Unsetenv("OVERRIDE")
 
 			_ = os.Remove(filepath.Join(testBuild.Application.Root, "metadata.toml"))
 		})

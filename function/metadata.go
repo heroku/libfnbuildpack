@@ -27,12 +27,12 @@ import (
 )
 
 const (
-	ArtifactEnv = "ARTIFACT"
-	HandlerEnv  = "HANDLER"
-	OverrideEnv = "OVERRIDE"
+	artifactEnv = "ARTIFACT"
+	handlerEnv  = "HANDLER"
+	overrideEnv = "OVERRIDE"
 )
 
-// Metadata represents the contents of the riff.toml file in an application root
+// Metadata represents the contents of the metadata.toml file in an application root
 type Metadata struct {
 	// Artifact is the path to the main function artifact. This may be a java jar file, an executable file, etc
 	// May be autodetected or chosen by a collaborating buildpack
@@ -71,18 +71,18 @@ func NewMetadata(application application.Application, logger logger.Logger) (Met
 			return Metadata{}, false, err
 		}
 	}
-	// environment overrides riff.toml values
-	if artifact := os.Getenv(ArtifactEnv); artifact != "" {
+	// environment overrides metadata.toml values
+	if artifact := os.Getenv(artifactEnv); artifact != "" {
 		metadata.Artifact = artifact
 	}
-	if handler := os.Getenv(HandlerEnv); handler != "" {
+	if handler := os.Getenv(handlerEnv); handler != "" {
 		metadata.Handler = handler
 	}
-	if override := os.Getenv(OverrideEnv); override != "" {
+	if override := os.Getenv(overrideEnv); override != "" {
 		metadata.Override = override
 	}
 
-	logger.Debug("riff metadata: %s", metadata)
+	logger.Debug("metadata: %s", metadata)
 	return metadata, true, nil
 }
 

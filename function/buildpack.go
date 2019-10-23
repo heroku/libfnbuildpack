@@ -57,7 +57,7 @@ func Detect(bp Buildpack) {
 
 func doDetect(bp Buildpack, d detect.Detect) (int, error) {
 	// Look for metadata toml file that includes artifact, handler, and override fields that the
-	// user can overwrite.  We should considering using this for Heroku or just removing it.
+	// user can overwrite.
 	m, ok, err := NewMetadata(d.Application, d.Logger)
 	if err != nil {
 		return d.Error(ErrorDetectReadMetadata), fmt.Errorf("unable to read metadata: %s", err.Error())
