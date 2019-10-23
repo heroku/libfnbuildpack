@@ -179,12 +179,11 @@ func (tc *Testcase) startServer(t *testing.T, fnImg string) (int32, *exec.Cmd) {
 
 func (tc *Testcase) createFunctionImg(t *testing.T, fnImg string, appdir string) {
 	err := tc.runCmd("pack", "build", "--no-pull",
-		"--builder", "projectriff/builder",
+		"--builder", "heroku/fn-builder",
 		"--path", appdir,
-		"--env", fmt.Sprintf("%s=%s", "RIFF", "true"),
-		"--env", fmt.Sprintf("%s=%s", "RIFF_ARTIFACT", tc.Artifact),
-		"--env", fmt.Sprintf("%s=%s", "RIFF_HANDLER", tc.Handler),
-		"--env", fmt.Sprintf("%s=%s", "RIFF_OVERRIDE", tc.Override),
+		"--env", fmt.Sprintf("%s=%s", "ARTIFACT", tc.Artifact),
+		"--env", fmt.Sprintf("%s=%s", "HANDLER", tc.Handler),
+		"--env", fmt.Sprintf("%s=%s", "OVERRIDE", tc.Override),
 		fnImg)
 	if err != nil {
 		t.Fatalf("could not build: %v", err)

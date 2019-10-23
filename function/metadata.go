@@ -23,18 +23,16 @@ import (
 
 	"github.com/BurntSushi/toml"
 	"github.com/buildpack/libbuildpack/application"
-	"github.com/cloudfoundry/libcfbuildpack/helper"
-	"github.com/cloudfoundry/libcfbuildpack/logger"
+	"github.com/buildpack/libbuildpack/logger"
 )
 
 const (
-	RiffEnv     = "RIFF"
-	ArtifactEnv = "RIFF_ARTIFACT"
-	HandlerEnv  = "RIFF_HANDLER"
-	OverrideEnv = "RIFF_OVERRIDE"
+	artifactEnv = "ARTIFACT"
+	handlerEnv  = "HANDLER"
+	overrideEnv = "OVERRIDE"
 )
 
-// Metadata represents the contents of the riff.toml file in an application root
+// Metadata represents the contents of the metadata.toml file in an application root
 type Metadata struct {
 	// Artifact is the path to the main function artifact. This may be a java jar file, an executable file, etc
 	// May be autodetected or chosen by a collaborating buildpack
@@ -55,12 +53,12 @@ func (m Metadata) String() string {
 	return fmt.Sprintf("Metadata{ Artifact: %s, Handler: %s, Override: %s }", m.Artifact, m.Handler, m.Override)
 }
 
-// NewMetadata creates a new Metadata from the contents of $APPLICATION_ROOT/riff.toml. If that file does not exist,
+// NewMetadata creates a new Metadata from the contents of $APPLICATION_ROOT/metadata.toml. If that file does not exist,
 // the second return value is false.
 func NewMetadata(application application.Application, logger logger.Logger) (Metadata, bool, error) {
-	f := filepath.Join(application.Root, "riff.toml")
+	f := filepath.Join(application.Root, "metadata.toml")
 
-	exists, err := helper.FileExists(f)
+	exists, err := fileExists(f)
 	if err != nil {
 		return Metadata{}, false, err
 	}
@@ -73,17 +71,30 @@ func NewMetadata(application application.Application, logger logger.Logger) (Met
 			return Metadata{}, false, err
 		}
 	}
-	// environment overrides riff.toml values
-	if artifact := os.Getenv(ArtifactEnv); artifact != "" {
+	// environment overrides metadata.toml values
+	if artifact := os.Getenv(artifactEnv); artifact != "" {
 		metadata.Artifact = artifact
 	}
-	if handler := os.Getenv(HandlerEnv); handler != "" {
+	if handler := os.Getenv(handlerEnv); handler != "" {
 		metadata.Handler = handler
 	}
-	if override := os.Getenv(OverrideEnv); override != "" {
+	if override := os.Getenv(overrideEnv); override != "" {
 		metadata.Override = override
 	}
 
-	logger.Debug("riff metadata: %s", metadata)
+	logger.Debug("metadata: %s", metadata)
 	return metadata, true, nil
+}
+
+func fileExists(file string) (bool, error) {
+	_, err := os.Stat(file)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, nil
+		}
+
+		return false, err
+	}
+
+	return true, nil
 }
